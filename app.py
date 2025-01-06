@@ -1,5 +1,8 @@
-from flask import Flask, request, jsonify
+from flask import Flask, render_template, redirect, url_for, request, session, flash ,jsonify
 import sqlite3
+from flask_mail import Mail, Message
+from email.mime.text import MIMEText
+from datetime import datetime, timedelta
 
 app = Flask(__name__)
 
@@ -15,7 +18,9 @@ def get_db_connection():
     except sqlite3.Error as e:
         print(f"Error connecting to database: {e}")
         return None
-
+@app.route('/')
+def index():
+    return render_template('index.html')
 # Route to create a new user
 @app.route('/user', methods=['POST'])
 def create_user():
