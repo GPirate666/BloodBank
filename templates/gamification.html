@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gamification Dashboard</title>
+
+    <!-- Updated CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles-gamification.css') }}">
+    <!-- Include Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+
+        <!-- Navbar Section -->
+        <nav class="navbar">
+            <!-- Logo Section -->
+            <div class="navbar-logo">
+                <a href="/">
+                    <img src="{{ url_for('static', filename='images/logo1.png') }}" alt="Blood Bank Management System Logo">
+                </a>
+            </div>
+
+            <!-- User Information -->
+            <div class="user-info">
+                <span>Hi, {{ session['username'] }}!</span>
+                <img src="{{ url_for('static', filename='images/profile_icon.png') }}" alt="User Icon" class="dropbtn">
+                <div class="dropdown">
+                    <div class="dropdown-content">
+                        <a href="/schedule">Schedule Appointment</a>
+                        <a href="/donation-history">Donation History</a>
+                        <a href="/logout">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Breadcrumbs -->
+        <div class="breadcrumb">
+            <a href="/">Home</a> / <span>Profile</span>
+        </div>
+
+        <!-- Statistics Cards -->
+        <section class="stats-cards">
+            <div class="card1">
+                <div class="card-icon">🛡️</div>
+                <div class="card-info">
+                    <h3>Badges</h3>
+                    <p>{{ badges }}</p>
+                </div>
+            </div>
+            <div class="card2">
+                <div class="card-icon">👑</div>
+                <div class="card-info">
+                    <h3>Medals</h3>
+                    <p>{{ medals }}</p>
+                </div>
+            </div>
+            <div class="card3">
+                <div class="card-icon">❤️</div>
+                <div class="card-info">
+                    <h3>Donations</h3>
+                    <p>{{ donations }}</p>
+                </div>
+            </div>
+            <div class="card4">
+                <div class="card-icon">🏥</div>
+                <div class="card-info">
+                    <h3>Hospitals</h3>
+                    <p>3</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Chart and Leaderboard Section -->
+        <section class="chart-leaderboard-container">
+            <!-- Chart Section -->
+            <div class="chart-section">
+                <h2>Today</h2>
+                <canvas id="chart"></canvas>
+            </div>
+
+            <!-- Leaderboard Section -->
+            <div class="leaderboard-section">
+                <h2>Leaderboard</h2>
+                <div class="leaderboard-card">
+                    <h3>Most Donations</h3>
+                    {% if leaderboard %}
+                        <div class="leader">
+                            <span>🥇</span> {{ leaderboard[0][0] }} - <strong>{{ leaderboard[0][1] }}</strong>
+                        </div>
+                        <ul class="leaderboard-list">
+                            {% for user in leaderboard[1:] %}
+                                <li>{{ loop.index + 1 }}️⃣ {{ user[0] }} - <strong>{{ user[1] }}</strong></li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p>No donations recorded yet.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+
+
+    </div>
+
+    <!-- JavaScript for Dropdown -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const dropbtn = document.querySelector('.dropbtn');
+            const dropdownContent = document.querySelector('.dropdown-content');
+
+            dropbtn.addEventListener('click', function(event) {
+                event.stopPropagation();
+                dropdownContent.classList.toggle('show');
+            });
+
+            window.addEventListener('click', function() {
+                if (dropdownContent.classList.contains('show')) {
+                    dropdownContent.classList.remove('show');
+                }
+            });
+        });
+    </script>
+
+    <!-- JavaScript for Chart -->
+    <script>
+        const ctx = document.getElementById('chart').getContext('2d');
+        const chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['10:00 AM', '12:00 PM', '2:00 PM', '4:00 PM', '6:00 PM', '8:00 PM'],
+                datasets: [
+                    {
+                        label: 'Today',
+                        data: [10, 20, 15, 25, 30, 20],
+                        borderColor: '#3498db',
+                        backgroundColor: 'rgba(52, 152, 219, 0.1)',
+                        fill: true,
+                    },
+                    {
+                        label: 'Yesterday',
+                        data: [5, 15, 10, 20, 25, 15],
+                        borderColor: '#e74c3c',
+                        backgroundColor: 'rgba(231, 76, 60, 0.1)',
+                        fill: true,
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: { beginAtZero: true },
+                    y: { beginAtZero: true }
+                },
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

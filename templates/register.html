@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Blood Bank Management System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles-register.css') }}">
+
+    <!-- JavaScript function to show pop-ups -->
+    <script>
+        function showPopup(message, type) {
+            if (message) {
+                alert(`${type.toUpperCase()}: ${message}`);
+            }
+        }
+
+        // Function to redirect to login after a delay
+        function redirectToLogin() {
+            setTimeout(() => {
+                window.location.href = "{{ url_for('login') }}";
+            }, 2000); // Redirect after 2 seconds
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="login-box">
+            <div class="left-section">
+                <h1>Blood Bank Management System</h1>
+                <h2>Create Account</h2>
+                <form action="{{ url_for('register') }}" method="POST">
+                    <div class="input-group">
+                        <input type="text" name="full_name" placeholder="Enter Full Name" required>
+                    </div>
+                    <div class="input-group">
+                        <input type="email" name="email" placeholder="Enter Email Address" required>
+                    </div>
+                    <div class="input-group">
+                        <input type="text" name="username" placeholder="Choose a Username" required>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" name="password" placeholder="Create Password" required>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" name="confirm_password" placeholder="Confirm Password" required>
+                    </div>
+                    <div class="options">
+                        <label>
+                            <input type="checkbox" name="terms" required> I agree to the <a href="#">Terms and Conditions</a>
+                        </label>
+                    </div>
+                    <button type="submit" class="login-btn">Register</button>
+                </form>
+                <div class="other-options">
+                    <p>Already have an account? <a href="{{ url_for('login') }}">Login</a></p>
+                </div>
+            </div>
+            <div class="right-section">
+                <img src="{{ url_for('static', filename='images/blood-donation.png') }}" alt="Blood Donation">
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript to trigger pop-ups for flashed messages -->
+    <script>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% for category, message in messages %}
+                showPopup("{{ message }}", "{{ category }}");
+            {% endfor %}
+        {% endwith %}
+
+        // Redirect to login if registration was successful
+        {% if redirect_to_login %}
+            redirectToLogin();
+        {% endif %}
+    </script>
+</body>
+</html>

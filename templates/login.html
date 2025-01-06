@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Blood Bank Management System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles-login.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="login-box">
+            <div class="left-section">
+                <h1>Blood Bank Management System</h1>
+                <h2>Sign In</h2>
+                <form id="login-form">
+                    <div class="input-group">
+                        <input type="email" id="email" name="email" placeholder="Enter Email" required>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" id="password" name="password" placeholder="Enter Password" required>
+                    </div>
+                    <div class="options">
+                        <label>
+                            <input type="checkbox" name="remember"> Remember Me
+                        </label>
+                    </div>
+                    <button type="submit" class="login-btn">Login</button>
+                </form>
+                <div class="other-options">
+                    <p>Or, Login with <a href="#">Google</a></p>
+                    <p>Don't have an account? <a href="{{ url_for('register') }}">Create One</a></p>
+                </div>
+            </div>
+            <div class="right-section">
+                <img src="{{ url_for('static', filename='images/blood-donation.png') }}" alt="Blood Donation">
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript for handling login -->
+    <script>
+        document.getElementById('login-form').addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent form from refreshing the page
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            fetch('{{ url_for("login") }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email: email, password: password })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'error') {
+                    alert(data.message); // Show pop-up for incorrect password or no account found
+                } else if (data.status === 'redirect') {
+                    window.location.href = data.redirect_url; // Redirect to the schedule page
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again later.');
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Blood Donation Scheduler</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles-schedule.css') }}">
+</head>
+<body>
+    <div class="container">
+        
+        <!-- Navbar Section -->
+        <nav class="navbar">
+            <!-- Logo Section -->
+            <div class="navbar-logo">
+                <a href="/">
+                    <img src="{{ url_for('static', filename='images/logo1.png') }}" alt="Blood Bank Management System Logo">
+                </a>
+            </div>
+            
+            <!-- User Greeting Section -->
+            <div class="user-header">
+                <span>Hi, {{ session['username'] }}!</span>
+                <img src="{{ url_for('static', filename='images/profile_icon.png') }}" alt="User Icon" class="image">
+            </div>
+        </nav>
+
+        <!-- Breadcrumbs -->
+        <div class="breadcrumb">
+            <a href="{{ url_for('index') }}">Home</a> / 
+            <a href="{{ url_for('gamification') }}">Profile</a> / 
+            <span class="current-page">Schedule Donation</span>
+        </div>
+        
+
+        <!-- Illustration Section -->
+        <div class="illustration-section">
+            <img src="{{ url_for('static', filename='images/blood-donation.jpg') }}" 
+                 alt="Blood donation illustration" 
+                 class="illustration"
+                 onerror="this.src='/api/placeholder/300/200'"> <!-- Fallback if image fails to load -->
+            <div>
+                <h1>Schedule Your Blood Donation Appointment</h1>
+                <p class="description1">Select a date and time to donate blood and help save lives. Booking is quick and easy. Choose an available slot and confirm your appointment.</p>
+            </div>
+        </div>
+
+        <!-- Form Starts -->
+        <form id="appointment-form" method="POST" action="/schedule">
+            <!-- Blood Type Selector -->
+            <div class="blood-type-selector">
+                <h3>Select Your Blood Type</h3>
+                <div class="blood-types">
+                    <button type="button" class="blood-type" data-blood-type="A+">A+</button>
+                    <button type="button" class="blood-type" data-blood-type="A-">A-</button>
+                    <button type="button" class="blood-type" data-blood-type="B+">B+</button>
+                    <button type="button" class="blood-type" data-blood-type="B-">B-</button>
+                    <button type="button" class="blood-type" data-blood-type="AB+">AB+</button>
+                    <button type="button" class="blood-type" data-blood-type="AB-">AB-</button>
+                    <button type="button" class="blood-type" data-blood-type="O+">O+</button>
+                    <button type="button" class="blood-type" data-blood-type="O-">O-</button>
+                </div>
+            </div>
+
+            <!-- Calendar and Time Slots -->
+            <div class="calendar-container">
+                <div class="small-calendar">
+                    <h3>Select a Date & Time</h3>
+                    <div class="month-navigation">
+                        <span>April 2024</span>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>MON</th>
+                                <th>TUE</th>
+                                <th>WED</th>
+                                <th>THU</th>
+                                <th>FRI</th>
+                                <th>SAT</th>
+                                <th>SUN</th>
+                            </tr>
+                        </thead>
+                        <tbody id="calendarBody">
+                        </tbody>
+                    </table>
+                    <div class="hospital-selector">
+                        <h3>Select Hospital Location</h3>
+                        <div id="hospitalList">
+                            <!-- Hospitals will be populated here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Time Slots -->
+                <div class="time-slots">
+                    <div class="week-navigation">
+                        <button type="button" class="prev-week">←</button>
+                        <span>April 2024</span>
+                        <button type="button" class="next-week">→</button>
+                    </div>
+
+                    <div class="date-grid" id="timeSlotGrid">
+                        <!-- Time slots will be populated here -->
+                    </div>
+
+                    <div class="timezone">
+                        <span>Time zone:</span>
+                        <p>Central European Time</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="form-actions">
+                <button type="submit" class="submit-btn">Submit</button>
+            </div>
+        </form>
+
+    </div>
+
+    <script src="{{ url_for('static', filename='js/schedule.js') }}"></script>
+    </body>
+</html>

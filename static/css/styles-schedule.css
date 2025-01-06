@@ -1,0 +1,308 @@
+* {
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+body {
+    margin: 0;
+    padding: 20px;
+    background-color: #f8f0f0;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 20px;
+    color: #666;
+}
+
+.breadcrumb a {
+    color: #ff0000;
+    text-decoration: none;
+}
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px; /* Added padding */
+    background-color: #ffffff; /* Background color for navbar */
+    
+}
+
+.navbar-logo img {
+    height: 50px; /* Adjust as needed */
+    margin-left: -20px;
+}
+.user-header {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-bottom: 20px;
+    color: #666;
+}
+.user-header span {
+    font-size: 18px;        /* Increases the font size */ 
+    color: #666;         /* Sets the text color (optional) */
+    /* Add any additional styles as needed */
+}
+.user-header img{
+    height: 30px; /* Adjust as needed */
+}
+.illustration-section {
+    display: flex;
+    gap: 40px;
+    margin-bottom: 0; /* Remove bottom margin */
+    padding-bottom: 30px; /* Add padding instead for consistent spacing */
+}
+
+.illustration {
+    width: 200px;
+    flex-shrink: 0;
+    object-fit: cover; /* Ensure image maintains aspect ratio */
+    height: auto; /* Allow height to adjust automatically */
+}
+
+h1 {
+    color: #333;
+    margin: 0 0 10px 0;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.description1 {
+    color: #666;
+    margin-bottom: 30px;
+    font-size: 15px;
+    
+}
+.blood-type-selector {
+margin-bottom: 30px;
+padding-bottom: 20px;
+border-bottom: 1px solid #eee; /* Optional: adds a subtle separator */
+}
+
+.blood-type-selector h3 {
+color: #333;
+font-size: 20px;
+margin-bottom: 25px;
+margin-left: 450px;
+}
+
+.blood-types {
+display: flex;
+flex-wrap: wrap;
+gap: 10px;
+}
+
+.blood-type {
+padding: 10px 15px;
+border: 1px solid #ddd;
+border-radius: 5px;
+background: #fff;
+color: #ff0000;
+font-size: 14px;
+cursor: pointer;
+transition: all 0.2s ease;
+margin-left: 70px;
+}
+
+.blood-type:hover {
+border-color: #ff0000;
+background: #fff1f1;
+}
+
+.blood-type.selected {
+background: #ff0000;
+color: white;
+border-color: #ff0000;
+}
+.calendar-container {
+display: flex;
+gap: 40px;
+padding-top: 30px; /* Add consistent padding at the top */
+border-top: 1px solid #eee; /* Optional: adds a subtle separator */
+}
+
+.small-calendar {
+    width: 300px;
+}
+
+.small-calendar table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.small-calendar th {
+    padding: 10px;
+    color: #666;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.small-calendar td {
+    padding: 8px;
+    text-align: center;
+    color: #333;
+    font-size: 14px;
+}
+
+.small-calendar td.active {
+    color: #ff0000;
+    cursor: pointer;
+}
+
+.small-calendar td.selected {
+    background-color: #ff0000;
+    color: white;
+    border-radius: 50%;
+}
+
+.hospital-selector {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+
+.hospital-selector h3 {
+    color: #333;
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+
+.hospital-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.hospital-card:hover {
+    border-color: #ff0000;
+}
+
+.hospital-card.selected {
+    border-color: #ff0000;
+    background-color: #fff1f1;
+}
+
+.hospital-name {
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.hospital-address {
+    font-size: 13px;
+    color: #666;
+}
+
+.time-slots {
+    flex-grow: 1;
+}
+
+.week-navigation {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    padding: 0 20px;
+}
+
+.week-navigation button {
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: #666;
+    cursor: pointer;
+    padding: 5px 10px;
+}
+
+.week-navigation button:disabled {
+    color: #ccc;
+    cursor: not-allowed;
+}
+
+.date-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.date-column {
+    text-align: center;
+}
+
+.date-header {
+    margin-bottom: 10px;
+    color: #666;
+    font-size: 14px;
+}
+
+.time-slot {
+    padding: 8px;
+    margin: 5px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+    color: #ff0000;
+    font-size: 14px;
+    text-align: center;
+}
+
+.time-slot.disabled {
+    background-color: #f5f5f5;
+    color: #999;
+    cursor: not-allowed;
+}
+
+.time-slot.selected {
+    background-color: #ff0000;
+    color: white;
+    border-color: #ff0000;
+}
+
+.timezone {
+    margin-top: 20px;
+    color: #666;
+    font-size: 14px;
+}
+
+.submit-btn {
+    background: #e62754;
+    color: white;
+    border: none;
+    padding: 12px 40px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+    max-width: 400px;
+   
+    display: block;
+    margin-left: 550px;
+ 
+}
+
+.skip-link {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.skip-link a {
+    color: #666;
+    text-decoration: none;
+    font-size: 14px;
+}

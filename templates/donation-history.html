@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Blood Donation History</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles-donation-history.css') }}">
+</head>
+<body>
+  <div class="container">
+    <div class="navbar-logo">
+      <a href="/">
+          <img src="{{ url_for('static', filename='images/logo1.png') }}" alt="Blood Bank Management System Logo">
+      </a>
+  </div>
+    <div class="header">
+      
+      <div class="breadcrumb">
+            <a href="{{ url_for('index') }}">Home</a> / 
+          <a href="{{ url_for('gamification') }}">Profile</a> /
+          <span>History</span>
+      </div>
+  </div>
+  
+
+    <div class="donor-info">
+      <div class="user-header">
+        <!-- User profile icon -->
+        <div class="user-avatar">
+            <img src="{{ url_for('static', filename='images/profile_icon.png') }}" alt="User Icon">
+        </div>
+        <div>
+            <h3>{{ session['username'] }}</h3>
+            <small>Email: {{ user_info['email'] }}</small>
+        </div>
+        <span class="status-badge">Active</span>
+    </div>
+    
+
+      <div class="info-grid">
+        <div class="info-item">
+          <div class="info-label">Phone</div>
+          <div>+40700000000</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">Home Address</div>
+          <div>Splaiul Independentei nr 313, sector 6, Bucuresti</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">Total Amount</div>
+          <div>{{ total_amount }}ml</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <h4>All Donations</h4>
+        <p>5</p>
+      </div>
+      <div class="stat-card">
+        <h4>Pending</h4>
+        <p>4</p>
+      </div>
+      <div class="stat-card">
+        <h4>Completed</h4>
+        <p>1</p>
+      </div>
+      <div class="stat-card">
+        <h4>Cancelled</h4>
+        <p>0</p>
+      </div>
+      <div class="stat-card">
+        <h4>Reschedule</h4>
+        <p>0</p>
+      </div>
+    </div>
+
+    <div class="donation-history">
+      <div class="history-header">
+        <h3>Donation History</h3>
+        <div class="action-buttons">
+          <button class="btn">Filter</button>
+          <button class="btn">Share</button>
+        </div>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th></th>
+            <th>Order Date</th>
+            <th>Location</th>
+            <th>Blood Type</th>
+            <th>Order Amount</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for donation in donation_history %}
+          <tr>
+            <td><input type="checkbox"></td>
+            <td>{{ donation['date'] }} {{ donation['time'] }}</td>
+            <td>{{ donation['hospital'] }}</td>
+            <td>{{ donation['blood_type'] }}</td>
+            <td>{{ donation['order_amount'] }}ml</td>
+            <td><span class="status {{ donation['status']|lower }}">{{ donation['status'] }}</span></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>
+</html>
