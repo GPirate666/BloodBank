@@ -1,189 +1,143 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="B2B MS is a platform designed to streamline blood donation and management processes.">
-        <meta name="author" content="B2B MS Team">
-        <meta name="keywords" content="Blood Donation, Blood Bank, B2B MS, Blood Management System, Donors, Hospitals">
-        <title>Welcome to B2B MS</title>
-        
-        <!-- Link către fișierul CSS extern -->
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/styles-index.css') }}">
-        
-        <!-- Font Awesome pentru iconițe (dacă dorești să adaugi iconițe în site) -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-        
-        <!-- Link către favicon (dacă ai un favicon pentru site-ul tău) -->
-        <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/x-icon">
-        
-        <!-- Link către Google Fonts pentru fonturi personalizate -->
-        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-        
-        <!-- Stiluri personalizate inline pentru urgențe (opțional) -->
-        <style>
-            .b2bms-red {
-                color: red; /* Stilul textului "B2B MS" */
-                font-weight: bold;
-            }
-        </style>
-    </head>
-    
-    <body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>B2B MS - Blood Bank Management System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles-index.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
         <nav class="navbar">
             <div class="navbar-logo">
-                <a href="/">
-                    <img src="{{ url_for('static', filename='images/logo1.png') }}" alt="B2B MS Logo">
-                </a>
+                <a href="/"><img src="{{ url_for('static', filename='images/logo1.png') }}" alt="B2B MS Logo"></a>
             </div>
-            <ul>
-                <li><a href="#about-section">About</a></li>
+            <ul class="nav-links">
+                <li><a href="#about">About</a></li>
+                <li><a href="#statistics">Statistics</a></li>
                 <li><a href="#testimonials">Testimonials</a></li>
-                <li><a href="#stats">Statistics</a></li>
                 <li><a href="#faq">FAQ</a></li>
-                <li><a href="#contact-section">Contact</a></li>
+                <li><a href="#contact">Contact</a></li>
             </ul>
         </nav>
-    
-    
-        <!-- Header Section -->
-        <header>
-            <div class="logo">
-                WELCOME TO <span>B2B MS</span>
-            </div>
-            <div class="subtitle">
-                Your gateway to better blood management.
-            </div>
-        </header>
-    
-        <div class="button-container">
-            {% if logged_in %}
-                <a href="{{ url_for('gamification') }}">
-                    <button class="login-button">Enter App</button>
-                </a>
-            {% else %}
-                <a href="{{ url_for('login') }}">
-                    <button class="login-button">Enter App</button>
-                </a>
-            {% endif %}
-        </div>
-        
-    
-        <!-- About Section -->
-        <section id="about-section" class="about-section">
-            <h2>About B2B MS</h2>
-            <div class="about-box">
-                <p>
-                    B2B MS is a platform designed to streamline blood donation and management processes. Whether you're a donor or a medical institution, we connect you to the resources you need for saving lives.
-                </p>
-            </div>
-        </section>
-        
-        
-    
-        <!-- Testimonials Section -->
-        <section id="testimonials" class="testimonials">
-            <h2>What Our Users Say</h2>
-            <div class="testimonial-slider">
-                <button class="prev-arrow">&#9664;</button> <!-- Săgeată stânga -->
-                <div class="testimonial active">
-                    <p>"This platform helped our hospital save countless lives. Thank you B2B MS!"</p>
-                    <span>- Medical Center</span>
+
+        <section class="hero-section">
+            <div class="welcome-content">
+                <div class="inline-headings">
+                    <h1>Welcome to</h1>
+                    <h2>B2B MS</h2>
                 </div>
-                <div class="testimonial">
-                    <p>"As a donor, it's so easy to find nearby blood banks and make a difference."</p>
-                    <span>- John Doe</span>
+                <p class="subtitle">Your Gateway to Better Blood Management</p>
+                {% if logged_in %}
+                    <a href="{{ url_for('gamification') }}" class="primary-button">Enter App</a>
+                {% else %}
+                    <a href="{{ url_for('login') }}" class="primary-button">Enter App</a>
+                {% endif %}
+            </div>
+            
+
+            <div class="carousel-container">
+                <div class="carousel-slides">
+                    <!--  -->
+                    <div class="carousel-slide active">
+                        <div class="slide-content">
+                            <img src="{{ url_for('static', filename='images/blood-donation11.png') }}" alt="Blood Donation">
+                        </div>
+                    </div>
+                    
+            
+                   
+                    <div class="carousel-slide">
+                        <div class="slide-content">
+                            <h2>About Us</h2>
+                            <p>Streamlining blood donation and management processes for better healthcare.</p>
+                        </div>
+                    </div>
+            
+                    <!-- Testimonials -->
+                    <div class="carousel-slide">
+                        <div class="slide-content">
+                            <h2>Our Impact</h2>
+                            
+                                <p>10000+ Donations, 500+ Hospitals, 50000+ Lives Saved</p>
+                                
+                            
+                        </div>
+                    </div>
+            
+                    
+                    <div class="carousel-slide">
+                        <div class="slide-content">
+                            <h2>Testimonials</h2>
+                            <p>"This platform helped our hospital save countless lives."</p>
+                        </div>
+                    </div>
+            
+                    
+                    <div class="carousel-slide">
+                        <div class="slide-content">
+                            <h2>FAQ</h2>
+                            <p>Learn how to become a donor and make a difference.</p>
+                            
+                        </div>
+                    </div>
+                    <div class="carousel-nav">
+                        <button class="nav-dot active" data-slide="0"></button>
+                        <button class="nav-dot" data-slide="1"></button>
+                        <button class="nav-dot" data-slide="2"></button>
+                        <button class="nav-dot" data-slide="3"></button>
+                        <button class="nav-dot" data-slide="4"></button>
+                    </div>
                 </div>
-                <div class="testimonial">
-                    <p>"An amazing platform that truly saves lives. Highly recommended!"</p>
-                    <span>- Sarah Smith</span>
-                </div>
-                <button class="next-arrow">&#9654;</button> <!-- Săgeată dreapta -->
+                
+                
             </div>
+            
         </section>
+
         
-    
-        <!-- Statistics Section -->
-        <section id="stats" class="stats">
-            <div class="stat-item">
-                <p>💉 10,000+</p>
-                <p>Donations</p>
-            </div>
-            <div class="stat-item">
-                <p>🏥 500+</p>
-                <p>Hospitals</p>
-            </div>
-            <div class="stat-item">
-                <p>❤️ 50,000+</p>
-                <p>Lives Saved</p>
-            </div>
-        </section>
-    
-        <!-- FAQ Section -->
-        <section id="faq" class="faq">
-            <h2>Frequently Asked Questions</h2>
-            <div class="faq-item">
-                <div class="faq-toggle">Q: How do I become a donor?</div>
-                <div class="faq-answer">Click the "Register" button and follow the steps to create your profile.</div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-toggle">Q: Is there any cost involved?</div>
-                <div class="faq-answer">No, B2B MS is free for all donors and hospitals.</div>
-            </div>
-        </section>
-    
-        <!-- Contact Section -->
-        <section id="contact-section" class="contact-section">
-            <h2>Contact Us</h2>
-            <p>Email: support@b2bms.com</p>
-            <p>Phone: +123 456 789</p>
-        </section>
-    
-        <!-- Footer -->
-        <footer>
-            <p>&copy; 2025 B2B MS. All rights reserved.</p>
-            <p><a href="/terms">Terms & Conditions</a> | <a href="/privacy">Privacy Policy</a></p>
-        </footer>
-    
-        <!-- JavaScript pentru Testimonial Slider -->
-        <script>
-            let currentTestimonial = 0;
-            const testimonials = document.querySelectorAll('.testimonial');
-        
-            // Funcție pentru activarea unui testimonial
-            function activateTestimonial(index) {
-                testimonials[currentTestimonial].classList.remove('active'); // Dezactivează testimonialul curent
-                currentTestimonial = index; // Actualizează indexul
-                testimonials[currentTestimonial].classList.add('active'); // Activează testimonialul nou
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const slides = document.querySelectorAll('.carousel-slide');
+            const dots = document.querySelectorAll('.nav-dot');
+            let currentSlide = 0;
+            const intervalTime = 5000;
+            let slideInterval;
+
+            function showSlide(index) {
+                slides.forEach(slide => slide.classList.remove('active'));
+                dots.forEach(dot => dot.classList.remove('active'));
+                slides[index].classList.add('active');
+                dots[index].classList.add('active');
+                currentSlide = index;
             }
-        
-            // Schimbare automată a testimonialelor la fiecare 5 secunde
-            const testimonialInterval = setInterval(() => {
-                const nextIndex = (currentTestimonial + 1) % testimonials.length;
-                activateTestimonial(nextIndex);
-            }, 10000);
-        
-            // Navigare manuală cu săgețile
-            document.querySelector('.prev-arrow').addEventListener('click', () => {
-                const prevIndex = (currentTestimonial - 1 + testimonials.length) % testimonials.length;
-                activateTestimonial(prevIndex);
-            });
-        
-            document.querySelector('.next-arrow').addEventListener('click', () => {
-                const nextIndex = (currentTestimonial + 1) % testimonials.length;
-                activateTestimonial(nextIndex);
-            });
-        </script>
-        
-    
-        <!-- JavaScript pentru FAQ Toggle -->
-        <script>
-            document.querySelectorAll('.faq-toggle').forEach(toggle => {
-                toggle.addEventListener('click', () => {
-                    const answer = toggle.nextElementSibling;
-                    answer.style.display = answer.style.display === 'block' ? 'none' : 'block';
+
+            function nextSlide() {
+                currentSlide = (currentSlide + 1) % slides.length;
+                showSlide(currentSlide);
+            }
+
+            function startSlideshow() {
+                slideInterval = setInterval(nextSlide, intervalTime);
+            }
+
+            function resetInterval() {
+                clearInterval(slideInterval);
+                startSlideshow();
+            }
+
+            dots.forEach((dot, index) => {
+                dot.addEventListener('click', () => {
+                    showSlide(index);
+                    resetInterval();
                 });
             });
-        </script>
-    </body>
+
+            startSlideshow();
+        });
+    </script>
+</body>
 </html>

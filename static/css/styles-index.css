@@ -1,258 +1,255 @@
-.about-box {
-    background-color: white; /* Fundal alb */
-    border-radius: 10px; /* Colțuri rotunjite */
-    padding: 20px 30px; /* Spațiere interioară */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Umbra subtile */
-    margin: 20px auto; /* Spațiere față de alte elemente */
-    max-width: 800px; /* Lățime maximă */
-    text-align: center; /* Aliniază textul în centru */
-    color: #333; /* Text închis la culoare */
-    font-size: 1.1em; /* Dimensiune mai mare pentru text */
-    line-height: 1.6; /* Spațiere între rânduri */
+/* General Reset */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
-/* Navigation Bar */
+html, body {
+    width: 100%;
+    height: 100%; /* Ensure the body takes full height */
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+    background-color: #f8f0f0;
+    color: #333;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 2500px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    overflow: hidden;
+    min-height: 100vh; /* Make sure the container spans the full viewport height */
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+}
+
 /* Navbar */
 .navbar {
     display: flex;
-    align-items: center; /* Aliniază vertical elementele */
-    justify-content: space-between; /* Logo-ul în stânga, meniul în dreapta */
-    position: sticky;
-    top: 0;
-    background: #fa8d83;
-    padding: 10px 20px;
-    z-index: 1000;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-/* Logo-ul */
-.navbar-logo {
-    display: flex;
+    justify-content: space-between;
     align-items: center;
+    padding: 15px 30px;
+    background-color: white;
+    border-bottom: 1px solid #eee;
 }
 
 .navbar-logo img {
-    height: 40px; /* Ajustează dimensiunea logo-ului */
-    width: auto; /* Păstrează proporțiile */
-    margin-right: 20px; /* Spațiere față de meniul de navigație */
+    height: 40px;
 }
 
-/* Meniul de navigație */
-.navbar ul {
+.nav-links {
+    display: flex;
+    gap: 30px;
     list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    gap: 20px; /* Spațiere între elementele meniului */
 }
 
-.navbar ul li {
-    font-size: 1.1em;
-}
-
-.navbar ul li a {
+.nav-links a {
+    color: #666;
     text-decoration: none;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 5px;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    font-weight: 500;
+    transition: color 0.3s ease;
 }
 
-.navbar ul li a:hover {
-    background-color: #ffb199; /* Culoare pe hover */
-    color: #333;
+.nav-links a:hover {
+    color: #e62754;
 }
 
-
-body {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
+/* Hero Section */
+.hero-section {
     background: linear-gradient(45deg, #ff9a9e, #fecfef);
-    color: #333;
-    overflow-x: hidden;
+    padding: 40px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: center;
+    flex-grow: 1; /* Ensure this section expands to fill available space */
+    min-height: 600px; /* Set a minimum height */
 }
 
-header {
-    text-align: center;
-    padding: 50px;
-    color: rgb(243, 0, 0);
-    animation: fadeIn 2s ease-in-out;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-.logo {
-    font-size: 3em;
-    font-weight: bold;
+.welcome-content {
     color: white;
-}
-
-.logo span {
-    color: white; /* Text alb pentru "B2B MS" */
-}
-
-
-.subtitle {
-    font-size: 1.5em;
-    margin-top: 10px;
-}
-
-.button-container {
-    text-align: center;
-    margin: 40px 0;
-    animation: slideIn 1.5s ease-in-out;
-}
-
-@keyframes slideIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-.login-button, .register-button {
-    padding: 15px 30px;
-    font-size: 1em;
-    font-weight: bold;
-    margin: 10px;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: transform 0.3s ease, background-color 0.3s ease;
-}
-
-.login-button {
-    background-color: #ff6f61;
-}
-
-.login-button:hover {
-    background-color: #ff3b30;
-    transform: scale(1.1);
-}
-
-.register-button {
-    background-color: #6a5acd;
-}
-
-.register-button:hover {
-    background-color: #483d8b;
-    transform: scale(1.1);
-}
-
-section {
-    padding: 40px 20px;
-    text-align: center;
-    animation: fadeIn 1.5s ease-in-out;
-}
-
-.about-section, .testimonials, .stats, .contact-section, .faq {
-    margin: 20px auto;
-    max-width: 800px;
-}
-
-.about-section h2, .testimonials h2, .stats h2, .contact-section h2, .faq h2 {
-    font-size: 2em;
-    color: #ff3b30;
-    margin-bottom: 20px;
-}
-
-.stats {
+    padding: 20px;
+    background-color: #dfbbdddc;
+    width: 110%;
+    height: 700px;
+    background: linear-gradient(45deg, #fecfef, #ff9a9e);
+    border-radius: 10px;
     display: flex;
-    justify-content: space-around;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    text-align: left;
+    padding-left: 80px;
     gap: 10px;
 }
 
-.stat-item {
-    background: white;
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    animation: bounce 2s infinite ease-in-out;
+.inline-headings {
+    display: flex; /* Align items horizontally */
+    gap: 10px; /* Add spacing between the headings */
+    align-items: center; /* Align the headings vertically */
 }
 
-@keyframes bounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
+.inline-headings h1 {
+    font-size: 6em;
+    margin: 0;
+    color: #ee1a1a;
+    margin-left:50px;
 }
 
-footer {
-    text-align: center;
-    padding: 20px;
-    background-color: #333;
+.inline-headings h2 {
+    font-size: 6em;
+    margin: 0;
+    color: #3d0303;
+}
+
+
+
+.welcome-content .subtitle {
+    font-size: 2.22em;
+    margin-bottom: 30px;
+    margin-left:150px;
+    color: #606060;
+}
+
+.primary-button {
+    display: inline-block;
+    padding: 15px 25px;
+    background-color: #fa6580;
     color: white;
-    font-size: 0.9em;
-}
-
-footer a {
-    color: #ff6f61;
+    border-radius: 5px;
     text-decoration: none;
+    font-size: 1.7em;
+    margin-left: 450px;
 }
 
-footer a:hover {
-    text-decoration: underline;
+.primary-button:hover {
+    background-color: #d61f4b;
+    transform: translateY(-2px);
 }
 
-.faq-toggle {
-    cursor: pointer;
-    padding: 10px;
-    background: #f4f4f4;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    margin-bottom: 10px;
-    transition: background 0.3s;
-}
-
-.faq-toggle:hover {
-    background: #ddd;
-}
-
-.faq-answer {
-    display: none;
-    padding: 10px;
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    margin-top: -10px;
-}
-/* Slider pentru testimoniale */
-.testimonial-slider {
+/* Carousel */
+.carousel-container {
     position: relative;
-    max-width: 800px;
-    margin: 0 auto;
+    overflow: hidden;
+    width: 100%;
+    height: 800px;
     display: flex;
     align-items: center;
     justify-content: center;
-}
-
-.testimonial {
-    display: none;
+    /*background-color: #fdbfd3;*/
     padding: 20px;
-    font-size: 1.2em;
+    box-sizing: border-box;
+}
+
+.carousel-slides {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    width: 90%; /* Reduced width to create box effect */
+    max-width: 1200px; /* Maximum width of the box */
+    position: relative;
+    height: 700px; /* Reduced height to accommodate navigation dots */
+    margin: 0 auto;
+   
+    border-radius: 15px; /* Rounded corners */
+    
+}
+
+.carousel-slide {
+    min-width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
     text-align: center;
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
-.testimonial.active {
-    display: block;
-    animation: fadeIn 1s ease-in-out;
+.carousel-slide.active {
+    opacity: 1;
+    z-index: 1;
 }
 
-/* Stilizare săgeți */
-.prev-arrow, .next-arrow {
-    background: none;
-    border: none;
+.slide-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+}
+
+.slide-content h2 {
     font-size: 2em;
-    color: #ff6f61;
-    cursor: pointer;
-    padding: 0 10px;
-    transition: transform 0.3s ease;
+    margin-bottom: 15px;
+    text-align: center;
 }
 
-.prev-arrow:hover, .next-arrow:hover {
-    transform: scale(1.2);
+.slide-content p {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+    text-align: center;
 }
+
+.slide-content img {
+    width: 80%;
+    height: 80%; /* Take up most of the height */
+    object-fit: cover;
+    border-radius: 15px 15px 0 0; /* Rounded corners only at top */
+    margin: 0;
+    padding: 0;
+}
+
+.carousel-nav {
+    position: absolute;
+    bottom: 20px;
+    left: 52%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    z-index: 10;
+}
+
+.nav-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid #333;
+    background: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    
+}
+
+.nav-dot.active {
+    background: #333;
+}
+
+/* Responsive Styling */
+@media (max-width: 768px) {
+    .hero-section {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+
+    .carousel-slides {
+        height: 400px;
+    }
+
+    .carousel-slide {
+        height: 400px;
+    }
+}
+
+
