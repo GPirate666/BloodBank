@@ -67,7 +67,7 @@ def schedule():
             conn.close()
 
             # Respond with success message and redirect URL
-            return jsonify({'message': 'Appointment successfully scheduled!', 'redirect_url': url_for('gamification')}), 200
+            return jsonify({'message': 'Appointment successfully scheduled!', 'redirect_url': url_for('donation_history')}), 200
 
         except Exception as e:
             return jsonify({'error': str(e)}), 500

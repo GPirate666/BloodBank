@@ -18,7 +18,7 @@
                 <li><a href="#statistics">Statistics</a></li>
                 <li><a href="#testimonials">Testimonials</a></li>
                 <li><a href="#faq">FAQ</a></li>
-                <li><a href="#contact">Contact</a></li>
+                
             </ul>
         </nav>
 
@@ -101,43 +101,88 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const slides = document.querySelectorAll('.carousel-slide');
-            const dots = document.querySelectorAll('.nav-dot');
-            let currentSlide = 0;
-            const intervalTime = 5000;
-            let slideInterval;
+    // Get all necessary DOM elements
+    const slides = document.querySelectorAll('.carousel-slide');
+    const dots = document.querySelectorAll('.nav-dot');
+    const navLinks = document.querySelectorAll('.nav-links a');
+    
+    // Carousel control variables
+    let currentSlide = 0;
+    const intervalTime = 5000;
+    let slideInterval;
 
-            function showSlide(index) {
-                slides.forEach(slide => slide.classList.remove('active'));
-                dots.forEach(dot => dot.classList.remove('active'));
-                slides[index].classList.add('active');
-                dots[index].classList.add('active');
-                currentSlide = index;
-            }
+    // Map navbar links to corresponding slide indexes
+    const navToSlideMap = {
+        'about': 1,
+        'statistics': 2,
+        'testimonials': 3,
+        'faq': 4
+    };
 
-            function nextSlide() {
-                currentSlide = (currentSlide + 1) % slides.length;
-                showSlide(currentSlide);
-            }
+    // Function to display specific slide
+    function showSlide(index) {
+        // Remove active class from all slides and dots
+        slides.forEach(slide => slide.classList.remove('active'));
+        dots.forEach(dot => dot.classList.remove('active'));
+        
+        // Add active class to current slide and dot
+        slides[index].classList.add('active');
+        dots[index].classList.add('active');
+        
+        // Update current slide index
+        currentSlide = index;
+    }
 
-            function startSlideshow() {
-                slideInterval = setInterval(nextSlide, intervalTime);
-            }
+    // Function to move to next slide
+    function nextSlide() {
+        currentSlide = (currentSlide + 1) % slides.length;
+        showSlide(currentSlide);
+    }
 
-            function resetInterval() {
-                clearInterval(slideInterval);
-                startSlideshow();
-            }
+    // Function to start automatic slideshow
+    function startSlideshow() {
+        slideInterval = setInterval(nextSlide, intervalTime);
+    }
 
-            dots.forEach((dot, index) => {
-                dot.addEventListener('click', () => {
-                    showSlide(index);
-                    resetInterval();
-                });
-            });
+    // Function to reset interval timer
+    function resetInterval() {
+        clearInterval(slideInterval);
+        startSlideshow();
+    }
 
-            startSlideshow();
+    // Add click event listeners to navigation dots
+    dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+            showSlide(index);
+            resetInterval();
         });
+    });
+
+    // Add click event listeners to navbar links
+    navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault(); // Prevent default anchor behavior
+            
+            // Get the href attribute without the #
+            const linkTarget = link.getAttribute('href').slice(1);
+            
+            // If this nav item has a corresponding slide
+            if (navToSlideMap[linkTarget] !== undefined) {
+                showSlide(navToSlideMap[linkTarget]);
+                resetInterval();
+                
+                // Optional: Smooth scroll to carousel
+                document.querySelector('.carousel-container').scrollIntoView({
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+
+    // Start the automatic slideshow
+    startSlideshow();
+});
+        
     </script>
 </body>
 </html>

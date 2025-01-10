@@ -22,9 +22,9 @@ html, body {
     border-radius: 15px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     overflow: hidden;
-    min-height: 100vh; /* Make sure the container spans the full viewport height */
+    height: 100vh; /* Changed to viewport height */
     display: flex;
-    flex-direction: column; /* Stack elements vertically */
+    flex-direction: column;
 }
 
 /* Navbar */
@@ -61,69 +61,70 @@ html, body {
 /* Hero Section */
 .hero-section {
     background: linear-gradient(45deg, #ff9a9e, #fecfef);
-    padding: 40px;
+    padding: 20px; /* Reduced padding */
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 40px;
+    gap: 20px; /* Reduced gap */
     align-items: center;
-    flex-grow: 1; /* Ensure this section expands to fill available space */
-    min-height: 600px; /* Set a minimum height */
+    flex-grow: 1;
+    min-height: 0; /* Remove minimum height */
 }
 
+/* Update the welcome-content styling */
 .welcome-content {
     color: white;
     padding: 20px;
     background-color: #dfbbdddc;
-    width: 110%;
-    height: 700px;
+    width: 100%;
+    height: 500px; /* Reduced height */
     background: linear-gradient(45deg, #fecfef, #ff9a9e);
     border-radius: 10px;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: flex-start;
-    text-align: left;
-    padding-left: 80px;
-    gap: 10px;
+    align-items: center; /* Center align all content */
+    text-align: center;
+    gap: 20px;
+    padding: 40px;
 }
 
 .inline-headings {
-    display: flex; /* Align items horizontally */
-    gap: 10px; /* Add spacing between the headings */
-    align-items: center; /* Align the headings vertically */
+    display: flex;
+    align-items: baseline;
+    white-space: nowrap;
+    gap: 20px;
+    justify-content: center; /* Center the headings */
 }
 
 .inline-headings h1 {
-    font-size: 6em;
+    font-size: 4em; /* Slightly reduced */
     margin: 0;
     color: #ee1a1a;
-    margin-left:50px;
 }
 
 .inline-headings h2 {
-    font-size: 6em;
+    font-size: 4em; /* Slightly reduced */
     margin: 0;
     color: #3d0303;
 }
 
-
-
 .welcome-content .subtitle {
-    font-size: 2.22em;
-    margin-bottom: 30px;
-    margin-left:150px;
+    font-size: 1.5em;
+    margin-bottom: 15px;
     color: #606060;
+    margin-left: 0; /* Remove margin */
 }
 
 .primary-button {
     display: inline-block;
-    padding: 15px 25px;
+    padding: 12px 20px; /* Reduced padding */
     background-color: #fa6580;
     color: white;
     border-radius: 5px;
     text-decoration: none;
-    font-size: 1.7em;
-    margin-left: 450px;
+    font-size: 1.2em; /* Reduced font size */
+    margin-left: 0; /* Remove margin */
+    margin-top: 20px; /* Add some space from the text above */
 }
 
 .primary-button:hover {
@@ -136,7 +137,7 @@ html, body {
     position: relative;
     overflow: hidden;
     width: 100%;
-    height: 800px;
+    height: 500px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -151,7 +152,7 @@ html, body {
     width: 90%; /* Reduced width to create box effect */
     max-width: 1200px; /* Maximum width of the box */
     position: relative;
-    height: 700px; /* Reduced height to accommodate navigation dots */
+    height: 450px; /* Reduced height to accommodate navigation dots */
     margin: 0 auto;
    
     border-radius: 15px; /* Rounded corners */
