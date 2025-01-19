@@ -76,31 +76,36 @@ def schedule():
                 VALUES (?, ?, ?, ?, ?)
             ''', (user_id, blood_type, date, time_slot, hospital_name))
 
-            # Update the badges table for the user
-            cursor.execute('SELECT badges, medals FROM badges WHERE user_id = ?', (user_id,))
+            # Fetch the user's current stats from the badges table
+            cursor.execute('''
+                SELECT badges, medals, donations
+                FROM badges
+                 WHERE user_id = ?
+                ''', (user_id,))
             user_badges = cursor.fetchone()
 
             if user_badges:
-                # Increment badges and check for medal award
+                    # Update existing user stats
                 new_badges = user_badges['badges'] + 1
-                new_medals = user_badges['medals']
-
-                if new_badges % 10 == 0:  # Award a medal every 10 badges
-                    new_medals += 1
+                new_medals = new_badges // 10  # Calculate medals based on total badges
+                new_donations = user_badges['donations'] + 1
 
                 cursor.execute('''
-                    UPDATE badges
-                    SET badges = ?, medals = ?, donations = donations + 1
-                    WHERE user_id = ?
-                ''', (new_badges, new_medals, user_id))
+        UPDATE badges
+        SET badges = ?, medals = ?, donations = ?
+        WHERE user_id = ?
+    ''', (new_badges, new_medals, new_donations, user_id))
             else:
-                # Create a new entry in the badges table
+               # Create a new entry for a user without existing stats
                 initial_badges = 1
                 initial_medals = 1 if initial_badges % 10 == 0 else 0
                 cursor.execute('''
-                    INSERT INTO badges (user_id, badges, medals, donations)
-                    VALUES (?, ?, ?, ?)
-                ''', (user_id, initial_badges, initial_medals, 1))
+                 INSERT INTO badges (user_id, badges, medals, donations)
+                 VALUES (?, ?, ?, ?)
+               ''', (user_id, initial_badges, initial_medals, 1))
+
+
+
 
             # Fetch user email
             cursor.execute('SELECT email FROM users WHERE id = ?', (user_id,))
@@ -115,7 +120,7 @@ def schedule():
             conn.commit()
 
             # Send email confirmation
-            # Send email confirmation
+            
             email_body = f"""
             <html>
                 <body style="margin: 0; padding: 0; background-color: #f4f4f4; font-family: Arial, sans-serif; color: #333; line-height: 1.6;">
@@ -188,80 +193,40 @@ def schedule():
 
 from datetime import datetime, timedelta
 
-@app.route('/win-badge', methods=['POST'])
-def win_badge():
-    if 'logged_in' not in session:
-        flash("Please log in to win a badge.", 'error')
-        return redirect(url_for('login'))
-    
-    user_id = session.get('user_id')
-    conn = get_db_connection()
-    cursor = conn.cursor()
+@app.route('/win_game', methods=['POST'])
+def win_game():
+    if 'user_id' not in session:
+        return jsonify({"error": "Not logged in"}), 403
 
+    user_id = session['user_id']
     try:
-        # Check number of games played today
-        today = datetime.now().date()
-        cursor.execute('''
-            SELECT COUNT(*) as games_today 
-            FROM badge_awards 
-            WHERE user_id = ? 
-            AND date(timestamp) = date(?)
-        ''', (user_id, today))
-        result = cursor.fetchone()
-        games_today = result['games_today'] if result else 0
+        conn = get_db_connection()
+        cursor = conn.cursor()
 
-        if games_today >= 5:
-            conn.close()
-            flash("You've reached your daily limit of 5 games. Please come back tomorrow!", 'error')
-            return redirect(url_for('game'))
-
-        # Verify game completion status from session
-        if not session.get('game_completed', False):
-            conn.close()
-            flash("Complete the game first to earn a badge!", 'error')
-            return redirect(url_for('game'))
-
-        # Record badge award timestamp
-        cursor.execute('''
-            CREATE TABLE IF NOT EXISTS badge_awards (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                user_id INTEGER,
-                timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
-            )
-        ''')
-        
-        cursor.execute('''
-            INSERT INTO badge_awards (user_id)
-            VALUES (?)
-        ''', (user_id,))
-
-        # Increment the user's badges
+        # Increment the badge count for the user
         cursor.execute('''
             UPDATE badges
             SET badges = badges + 1
             WHERE user_id = ?
         ''', (user_id,))
 
-        # Check if the user exists in the badges table; if not, insert a new entry
-        if cursor.rowcount == 0:
-            cursor.execute('''
-                INSERT INTO badges (user_id, badges, medals, donations)
-                VALUES (?, 1, 0, 0)
-            ''', (user_id,))
-
-        # Clear the game completion status
-        session.pop('game_completed', None)
+        # Log the game win in the badge_awards table
+        cursor.execute('''
+            INSERT INTO badge_awards (user_id, timestamp)
+            VALUES (?, DATETIME('now'))
+        ''', (user_id,))
 
         conn.commit()
+        return jsonify({"message": "Badge awarded and game logged."}), 200
+
+    except sqlite3.Error as e:
+        return jsonify({"error": str(e)}), 500
+
+    finally:
         conn.close()
 
-        flash("Congratulations! You've won a badge!", 'success')
-        return redirect(url_for('gamification'))
-        
-    except Exception as e:
-        conn.close()
-        flash("An error occurred while awarding the badge. Please try again.", 'error')
-        return redirect(url_for('game'))
+
+
 
 @app.route('/game')
 def game():
@@ -269,68 +234,73 @@ def game():
         flash("Please log in to access the game.", 'error')
         return redirect(url_for('login'))
 
+    # Logic for checking remaining games and rendering the game page
     try:
         user_id = session['user_id']
         conn = get_db_connection()
         cursor = conn.cursor()
 
-        # Check number of games played today
         today = datetime.now().date()
-        
-        # First, ensure the badge_awards table exists
-        cursor.execute('''
-            CREATE TABLE IF NOT EXISTS badge_awards (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                user_id INTEGER,
-                timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
-            )
-        ''')
 
+        # Check games played today
         cursor.execute('''
-            SELECT COUNT(*) as games_today 
-            FROM badge_awards 
-            WHERE user_id = ? 
-            AND date(timestamp) = date(?)
+            SELECT COUNT(*) as games_today
+            FROM badge_awards
+            WHERE user_id = ? AND DATE(timestamp) = ?
         ''', (user_id, today))
-        
         result = cursor.fetchone()
-        games_today = result[0] if result else 0  # Changed from result['games_today']
-        games_remaining = 5 - games_today
+        games_today = result[0] if result else 0
+        games_remaining = max(0, 5 - games_today)
 
         conn.close()
 
-        # Reset game completion status when starting a new game
-        session.pop('game_completed', None)
+        if games_remaining <= 0:
+            flash("You have reached the game limit for today.", 'error')
+            return redirect(url_for('gamification'))
 
-        # Always return the template regardless of games_remaining
-        return render_template(
-            'game.html',
-            games_remaining=games_remaining,
-            games_played=games_today
-        )
+        return render_template('game.html', games_remaining=games_remaining, games_played=games_today)
 
-    except Exception as e:
-        print(f"Error in game route: {e}")  # Add debugging
-        if 'conn' in locals():
-            conn.close()
-        flash("An error occurred while loading the game.", 'error')
-        return redirect(url_for('gamification'))
+    except sqlite3.Error as e:
+        flash(f"An error occurred: {e}", 'error')
+        return redirect(url_for('dashboard'))
 
-# Add this new route to handle game completion
-@app.route('/complete-game', methods=['POST'])
-def complete_game():
-    if 'logged_in' not in session:
-        return jsonify({'success': False, 'message': 'Please log in'}), 401
-    
-    # Set the game completion flag
-    session['game_completed'] = True
-    return jsonify({'success': True, 'message': 'Game completion recorded'})
+@app.route('/check_game_limit')
+def check_game_limit():
+    if 'user_id' not in session:
+        return jsonify({"error": "Not logged in"}), 403
+
+    user_id = session['user_id']
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+
+        # Count games played today
+        cursor.execute('''
+            SELECT COUNT(*) FROM badge_awards
+            WHERE user_id = ? AND DATE(timestamp) = DATE('now')
+        ''', (user_id,))
+        games_today = cursor.fetchone()[0]
+
+        remaining_games = max(0, 5 - games_today)  # Limit is 5 games per day
+        return jsonify({"remaining_games": remaining_games})
+
+    except sqlite3.Error as e:
+        return jsonify({"error": str(e)}), 500
+
+    finally:
+        conn.close()
+
+
 
 @app.route('/gamification')
 def gamification():
-    if 'logged_in' in session:
-        user_id = session['user_id']  # Get the logged-in user's ID
+    if 'logged_in' not in session:
+        flash("Please log in to access the gamification page.", 'error')
+        return redirect(url_for('login'))
 
+    user_id = session['user_id']  # Get the logged-in user's ID
+
+    try:
         conn = get_db_connection()
         cursor = conn.cursor()
 
@@ -342,32 +312,13 @@ def gamification():
         ''', (user_id,))
         stats = cursor.fetchone()
 
-        # Game badges directly from the table
-        badges_from_game = stats['badges'] if stats else 0
-        total_donations = stats['donations'] if stats else 0
-        total_medals = stats['medals'] if stats else 0
+        # Extract stats or set defaults
+        badges = stats['badges'] if stats else 0
+        medals = stats['medals'] if stats else 0
+        donations = stats['donations'] if stats else 0
 
-        # Donations from the appointments table
-        cursor.execute('''
-            SELECT COUNT(*) AS donations
-            FROM appointments
-            WHERE user_id = ?
-        ''', (user_id,))
-        donations_result = cursor.fetchone()
-        appointments_donations = donations_result['donations'] if donations_result else 0
-
-        # Synchronize the donations in the badges table
-        if total_donations != appointments_donations:
-            cursor.execute('''
-                UPDATE badges
-                SET donations = ?
-                WHERE user_id = ?
-            ''', (appointments_donations, user_id))
-            conn.commit()
-            total_donations = appointments_donations
-
-        # Total badges = game badges + donations
-        total_badges = badges_from_game + total_donations
+        # Determine if the user is eligible for a voucher
+        has_voucher = donations >= 10
 
         # Dynamically calculate the number of unique hospitals
         cursor.execute('''
@@ -376,9 +327,10 @@ def gamification():
             WHERE user_id = ?
         ''', (user_id,))
         hospitals_result = cursor.fetchone()
+
         unique_hospitals = hospitals_result['unique_hospitals'] if hospitals_result else 0
 
-        # Query to get the leaderboard (top 5 users sorted by donations)
+        # Query for leaderboard (top 5 users by donations)
         cursor.execute('''
             SELECT u.username, 
                    b.donations AS total_donations
@@ -389,19 +341,25 @@ def gamification():
         ''')
         leaderboard = cursor.fetchall()
 
+        # Pass data to the gamification template
+        return render_template(
+            'gamification.html',
+            badges=badges,
+            medals=medals,
+            donations=donations,
+            unique_hospitals=unique_hospitals,
+            leaderboard=leaderboard,
+            has_voucher=has_voucher  # Pass eligibility for voucher to the template
+        )
+
+    except sqlite3.Error as e:
+        flash(f"An error occurred while fetching gamification data: {e}", 'error')
+        return redirect(url_for('dashboard'))
+    finally:
         conn.close()
 
-        # Pass the stats and leaderboard data to the template
-        return render_template('gamification.html', 
-                               badges=total_badges,  # Use total badges
-                               medals=total_medals, 
-                               donations=total_donations,  # Donations directly reflect appointments
-                               unique_hospitals=unique_hospitals, 
-                               leaderboard=leaderboard)
-    print(f"Game badges: {badges_from_game}, Donations: {total_donations}, Total Badges: {total_badges}")
 
-    flash("Please log in to access the gamification page.", 'error')
-    return redirect(url_for('login'))
+
 
 
 @app.route('/donation-history')
@@ -689,8 +647,137 @@ def admin_donations():
     return render_template('donations.html', donations=donations)
 
 
+@app.route('/check_donations', methods=['POST'])
+def check_donations():
+    if 'user_id' not in session:
+        return jsonify({"error": "Not logged in"}), 403
+
+    user_id = session['user_id']
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+
+        # Debug: Log the user ID
+        print(f"Checking donations for user_id: {user_id}")
+
+        # Fetch the number of donations and meal vouchers
+        cursor.execute('''
+            SELECT donations, meal_vouchers FROM badges WHERE user_id = ?
+        ''', (user_id,))
+        user_data = cursor.fetchone()
+
+        # Debug: Log the user data fetched
+        print(f"User data fetched: {user_data}")
+
+        if user_data:
+            donations = user_data['donations']
+            meal_vouchers = user_data['meal_vouchers']
+
+            # Calculate the new vouchers based on donations
+            
+
+            # Debug: Log calculations
+            print(f"Donations: {donations}, Meal Vouchers: {meal_vouchers}")
+
+            if meal_vouchers > 0:
+                
+                cursor.execute('''
+                    UPDATE badges
+                    SET meal_vouchers = ?
+                    WHERE user_id = ?
+                ''', (meal_vouchers, user_id))
+                conn.commit()
+
+                return jsonify({
+                    "message": f"Felicitări! Ai câștigat {meal_vouchers} bonuri de masă.",
+                    "total_vouchers": meal_vouchers
+                }), 200
+
+        return jsonify({"message": "Nu ai suficient donații pentru a câștiga bonuri de masă."}), 200
+
+    except sqlite3.Error as e:
+        print(f"Database error: {e}")
+        return jsonify({"error": str(e)}), 500
+
+    finally:
+        conn.close()
 
 
+
+import qrcode
+import io
+import base64
+from flask import send_file
+
+@app.route('/voucher-page')
+def voucher_page():
+    if 'logged_in' in session:
+        user_id = session['user_id']
+
+        conn = get_db_connection()
+        cursor = conn.cursor()
+
+        # Get donations for the user
+        cursor.execute('''
+            SELECT donations
+            FROM badges
+            WHERE user_id = ?
+        ''', (user_id,))
+        result = cursor.fetchone()
+        donations = result['donations'] if result else 0
+
+        # Check if the user has enough donations to claim a voucher
+        if donations < 10:
+            flash("You need at least 10 donations to claim a voucher!", "error")
+            return redirect(url_for('gamification'))
+
+        # Lists of restaurants/shops
+        restaurants = [
+            'Caru\' cu Bere',
+            'Hanul Berarilor',
+            'Zexe Braserie',
+            'Hanu\' lui Manuc',
+            'Taverna Sârbului',
+            'Nor Sky Casual Restaurant',
+            'Vivo - Fusion Food Bar',
+            'Shift Pub',
+            'Sushi Room',
+            'Mahala'
+        ]
+
+        shops = [
+            'AFI Cotroceni - Mall',
+            'Mega Mall București',
+            'Unirea Shopping Center',
+            'Promenada Mall',
+            'Băneasa Shopping City',
+            'Cărturești Carusel - Librărie',
+            'Altex - Unirii',
+            'Dedeman - Militari',
+            'Emag Showroom - Crângași',
+            'Decathlon - Băneasa'
+        ]
+
+        # Generate QR code for the voucher
+        qr_data = f"User ID: {user_id}, Donations: {donations}, Voucher ID: {user_id}-voucher"
+        qr = qrcode.make(qr_data)
+
+        # Save QR code to an in-memory file
+        qr_io = io.BytesIO()
+        qr.save(qr_io, 'PNG')
+        qr_io.seek(0)
+        qr_code_base64 = base64.b64encode(qr_io.getvalue()).decode('utf-8')
+        qr_code_url = f"data:image/png;base64,{qr_code_base64}"
+
+        return render_template(
+            'voucher_page.html',
+            restaurants=restaurants,
+            shops=shops,
+            qr_code_url=qr_code_url
+        )
+    else:
+        flash("Please log in to access the voucher page.", "error")
+        return redirect(url_for('login'))
 
 
 

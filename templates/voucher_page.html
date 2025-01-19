@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claim Your Voucher</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h1 {
+            color: #fc8074;
+        }
+        .voucher-content {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-top: 20px;
+        }
+        .voucher-column {
+            flex: 1;
+            margin: 0 10px;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            background: #f0ddd8;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .qr-container {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            border: 2px solid #d9534f;
+            padding: 20px;
+            border-radius: 10px;
+            z-index: 1000;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        .qr-container img {
+            max-width: 300px;
+        }
+        .qr-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+        .show-qr-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1em;
+            color: white;
+            background-color: #d9534f;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .show-qr-btn:hover {
+            background-color: #c9302c;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎁 How to Use Your Voucher</h1>
+        <p>Congratulations on earning a voucher! You can use it at one of the following restaurants or shops:</p>
+
+        <div class="voucher-content">
+            <!-- Shops Section -->
+            <div class="voucher-column">
+                <h2>🛍️ Shops:</h2>
+                <ul>
+                    {% for shop in shops %}
+                    <li>{{ shop }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <!-- Restaurants Section -->
+            <div class="voucher-column">
+                <h2>🍴 Restaurants:</h2>
+                <ul>
+                    {% for restaurant in restaurants %}
+                    <li>{{ restaurant }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <!-- QR Code Button -->
+        <button class="show-qr-btn" id="showQrBtn">Show QR Code</button>
+
+        <!-- QR Code Pop-Up -->
+        <div class="qr-overlay" id="qrOverlay"></div>
+        <div class="qr-container" id="qrContainer">
+            <h2>Your Voucher QR Code</h2>
+            <img src="{{ qr_code_url }}" alt="Voucher QR Code">
+        </div>
+    </div>
+
+    <script>
+        const showQrBtn = document.getElementById('showQrBtn');
+        const qrOverlay = document.getElementById('qrOverlay');
+        const qrContainer = document.getElementById('qrContainer');
+
+        showQrBtn.addEventListener('click', () => {
+            // Show the QR code and overlay
+            qrOverlay.style.display = 'block';
+            qrContainer.style.display = 'block';
+
+            // Hide the QR code after 10 seconds
+            setTimeout(() => {
+                qrOverlay.style.display = 'none';
+                qrContainer.style.display = 'none';
+            }, 10000);
+        });
+
+        // Allow the QR code to disappear when clicking outside it
+        qrOverlay.addEventListener('click', () => {
+            qrOverlay.style.display = 'none';
+            qrContainer.style.display = 'none';
+        });
+    </script>
+</body>
+</html>

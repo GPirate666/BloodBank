@@ -283,3 +283,17 @@ footer a:hover {
         width: 100%;
     }
 }
+
+.voucher-button {
+    display: inline-block;
+    padding: 9px 15px;
+    font-size: 1.2em;
+    text-decoration: none;
+    color: white;
+    background-color: #e86a68;
+    border-radius: 8px;
+    transition: background-color 0.3s;
+}
+.voucher-button:hover {
+    background-color: #d13434;
+}

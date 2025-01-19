@@ -30,7 +30,7 @@
                     <div class="dropdown-content">
                         <a href="/schedule">Schedule Appointment</a>
                         <a href="/donation-history">Donation History</a>
-                        <a href="/game">Win a Medal</a>
+                        <a href="/game">Win a Badge</a>
                         <a href="/logout">Logout</a>
                     </div>
                 </div>
@@ -41,7 +41,7 @@
         <div class="breadcrumb">
             <a href="/">Home</a> / <span>Profile</span>
         </div>
-
+        
         <!-- Statistics Cards -->
         <section class="stats-cards">
             <div class="card1">
@@ -102,6 +102,18 @@
                 </div>
             </div>
         </section>
+
+<!-- Adaugă condiția pentru afișarea butonului -->
+{% if has_voucher %}
+<div style="margin-top: 20px;">
+    <a href="{{ url_for('voucher_page') }}" class="voucher-button">🎁 Claim Your Voucher</a>
+</div>
+{% else %}
+<p style="margin-top: 20px; color: gray;">You need at least 10 donations to claim a voucher. Keep donating! ❤️</p>
+{% endif %}
+
+
+
 
 
     </div>
@@ -164,6 +176,24 @@
                 }
             }
         });
+
+
+        document.getElementById('checkVouchersBtn').addEventListener('click', () => {
+    fetch('/check_donations', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' }
+    })
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById('voucherMessage').textContent = data.message;
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+});
+
     </script>
+
+
 </body>
 </html>

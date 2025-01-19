@@ -1,5 +1,4 @@
 import sqlite3
-import random
 
 def create_badges_table():
     try:
@@ -22,30 +21,20 @@ def create_badges_table():
             )
         ''')
 
-        # Insert existing users into the badges table
+        # Insert existing users into the badges table with default values
         cursor.execute("SELECT id FROM users")
         users = cursor.fetchall()
 
         for user in users:
             user_id = user[0]
-            if user_id in [1, 2, 7, 8]:
-                # Assign random numbers for badges, medals, and donations
-                badges = random.randint(1, 15)
-                medals = random.randint(1, 5)
-                donations = random.randint(1, 30)
-                cursor.execute('''
-                    INSERT INTO badges (user_id, badges, medals, donations)
-                    VALUES (?, ?, ?, ?)
-                ''', (user_id, badges, medals, donations))
-            else:
-                # Insert default values for other users
-                cursor.execute('''
-                    INSERT INTO badges (user_id, badges, medals, donations)
-                    VALUES (?, 0, 0, 0)
-                ''', (user_id,))
+            # Insert default values for all users
+            cursor.execute('''
+                INSERT INTO badges (user_id, badges, medals, donations)
+                VALUES (?, 0, 0, 0)
+            ''', (user_id,))
 
         conn.commit()
-        print("Badges table has been created and populated successfully.")
+        print("Badges table has been created and populated successfully with default values.")
 
     except sqlite3.Error as e:
         print(f"An error occurred: {e}")
