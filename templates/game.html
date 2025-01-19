@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snake Game - Blood Drop</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        canvas {
+            display: block;
+            margin: 20px auto;
+            border: 2px solid #d9534f;
+            background-color: #ffffff;
+        }
+        .game-info {
+            margin: 10px 0;
+            font-size: 1.2em;
+        }
+        .health-bar-container {
+            margin: 10px auto;
+            width: 80%;
+            height: 30px;
+            border: 2px solid #333;
+            border-radius: 15px;
+            overflow: hidden;
+            background-color: #ddd;
+        }
+        .health-bar {
+            height: 100%;
+            background-color: #d9534f;
+            width: 0%; /* Start empty */
+            transition: width 0.3s;
+        }
+        .win-message {
+            display: none;
+            font-size: 1.5em;
+            color: #28a745;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Snake Game - Blood Drop</h1>
+    <p class="game-info">Collect the blood drops to fill the health bar!</p>
+    <div class="health-bar-container">
+        <div id="health-bar" class="health-bar"></div>
+    </div>
+    <canvas id="gameCanvas" width="400" height="400"></canvas>
+    <p class="win-message" id="winMessage">🎉 You filled the health bar and won a badge!</p>
+    <script src="{{ url_for('static', filename='js/game.js') }}"></script>
+</body>
+</html>

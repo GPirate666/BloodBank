@@ -197,24 +197,24 @@ document.querySelector('.month-navigation span').textContent = currentMonth.name
 // Select the submit button
 const submitBtn = document.querySelector('.submit-btn');
 
-// Ensure the submit button exists
+// Submit Button Handler
 if (submitBtn) {
     submitBtn.addEventListener('click', async (event) => {
         event.preventDefault(); // Prevent the default form submission
 
         // Get selected blood type
         const selectedBloodType = document.querySelector('.blood-type.selected')?.dataset.bloodType;
-        
+
         // Get selected time slot element and text
         const selectedTimeElement = document.querySelector('.time-slot.selected');
         const selectedTime = selectedTimeElement?.textContent;
-        
+
         // Get selected hospital
         const selectedHospital = document.querySelector('.hospital-card.selected .hospital-name')?.textContent;
-        
+
         // Get selected date header from the parent of the selected time slot
         const selectedDateHeader = selectedTimeElement ? selectedTimeElement.parentElement.querySelector('.date-header')?.innerHTML : null;
-        
+
         // Extract the day from the date header
         const selectedDay = selectedDateHeader ? selectedDateHeader.split('<br>')[1].trim() : null;
 
@@ -288,12 +288,11 @@ if (submitBtn) {
 
             const result = await response.json();
 
+            // Updated response handling
             if (response.ok) {
-                alert(result.message);
-                // Redirect to gamification.html
-                window.location.href = result.redirect_url;
+                alert(`${result.message}`); // Display success message
+                window.location.href = result.redirect_url; // Redirect if provided
             } else {
-                // Handle errors returned by the backend
                 alert(`Error: ${result.error}`);
             }
         } catch (error) {
@@ -302,3 +301,4 @@ if (submitBtn) {
         }
     });
 }
+
