@@ -233,7 +233,25 @@ def get_user():
     else:
         return jsonify({'error': 'User not logged in'}), 401
 
+# Ruta principală a admin-ului
+@app.route('/admin')
+def admin_home():
+    if not session.get('is_admin'):  # Verifică dacă utilizatorul este admin
+        flash("Access Denied. Admins Only!", "danger")
+        return redirect(url_for('login'))
+    return render_template('dashboard.html')
 
+# Gestionare utilizatori
+@app.route('/admin/users')
+def admin_users():
+    # Adaugă logica pentru gestionarea utilizatorilor
+    return render_template('users.html')
+
+# Gestionare donații
+@app.route('/admin/donations')
+def admin_donations():
+    # Adaugă logica pentru gestionarea donațiilor
+    return render_template('donations.html')
 
 # Route for logout
 @app.route('/logout')
@@ -244,3 +262,4 @@ def logout():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
