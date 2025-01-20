@@ -21,6 +21,17 @@
                     <img src="{{ url_for('static', filename='images/logo1.png') }}" alt="Blood Bank Management System Logo">
                 </a>
             </div>
+ <!-- Schedule Appointment Button -->
+ <div class="navbar-schedule">
+    <a href="/schedule" class="schedule-btn" style="
+        padding: 10px 15px;
+        background-color: #FCC0C0;
+        color: black;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;"
+    >📆 Schedule Appointment</a>
+</div>
 
             <!-- User Information -->
             <div class="user-info">
@@ -28,7 +39,6 @@
                 <img src="{{ url_for('static', filename='images/profile_icon.png') }}" alt="User Icon" class="dropbtn">
                 <div class="dropdown">
                     <div class="dropdown-content">
-                        <a href="/schedule">Schedule Appointment</a>
                         <a href="/donation-history">Donation History</a>
                         <a href="/game">Win a Badge</a>
                         <a href="/logout">Logout</a>
