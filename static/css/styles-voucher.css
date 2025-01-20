@@ -1,0 +1,223 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  }
+
+  body {
+    background: #f8f0f0;
+    padding: 20px;
+  }
+
+  .container {
+    max-width: 1700px;
+    margin: 0 auto;
+    margin-top: 20px;
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.navbar-logo img {
+  height: 50px;
+  margin-left: -0px;
+  margin-bottom: 10px;
+}
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 20px;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+  .breadcrumb a {
+      color: #ff0000;
+      text-decoration: none;
+  }
+
+  .donor-info {
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  }
+
+  .user-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.user-avatar {
+    width: 48px;
+    height: 48px;
+    background: #f0f0f0;
+    border-radius: 50%;
+    overflow: hidden; /* Ensures anything outside the circle is clipped */
+}
+
+.user-avatar img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+
+  .status-badge {
+    background: #e8f5e9;
+    color: #2e7d32;
+    padding: 4px 12px;
+    border-radius: 16px;
+    font-size: 14px;
+  }
+
+  .info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 24px;
+  }
+
+  .info-item {
+    background: rgb(236, 236, 236);
+    padding: 16px;
+    border-radius: 8px;
+  }
+
+  .info-label {
+    color: #3d3d3d;
+    font-size: 14px;
+    margin-bottom: 8px;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 24px;
+    margin-bottom: 24px;
+  }
+
+  .stat-card {
+    background: rgb(236, 236, 236);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  }
+
+  .donation-history {
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  }
+
+  .history-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+  }
+
+  .action-buttons {
+    display: flex;
+    gap: 12px;
+  }
+
+  .btn {
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    background: white;
+    cursor: pointer;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+  }
+
+  th {
+    color: #666;
+    font-weight: 500;
+  }
+
+  .status {
+    padding: 4px 12px;
+    border-radius: 16px;
+    font-size: 14px;
+  }
+
+  .completed {
+    background: #e8f5e9;
+    color: #2e7d32;
+  }
+
+  .pending {
+    background: #fff3e0;
+    color: #e65100;
+  }
+
+  .in-progress {
+    background: #e3f2fd;
+    color: #1565c0;
+  }
+
+  .chart-leaderboard-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px; /* Spațiu între grafic și leaderboard */
+    margin-bottom: 30px;
+}
+
+.chart-section {
+    flex: 2; /* Graficul ocupă 2/3 din lățime */
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.leaderboard-section {
+    flex: 1; /* Leaderboard-ul ocupă 1/3 din lățime */
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.leaderboard-card h3 {
+    margin: 0 0 10px;
+    font-size: 1.2em;
+    color: #34495e;
+}
+
+.leader {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #e74c3c;
+}
+
+.leaderboard-list li {
+    list-style: none;
+    margin-bottom: 10px;
+    font-size: 1em;
+}
