@@ -290,10 +290,11 @@ footer a:hover {
     font-size: 1.2em;
     text-decoration: none;
     color: white;
-    background-color: #e86a68;
+    background-color: #f99290;
     border-radius: 8px;
     transition: background-color 0.3s;
+    font-family: -apple-system;
 }
 .voucher-button:hover {
-    background-color: #d13434;
+    background-color: #e64f4f;
 }
