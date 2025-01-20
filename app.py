@@ -225,9 +225,6 @@ def win_game():
     finally:
         conn.close()
 
-
-
-
 @app.route('/game')
 def game():
     if 'logged_in' not in session:
@@ -289,8 +286,6 @@ def check_game_limit():
 
     finally:
         conn.close()
-
-
 
 @app.route('/gamification')
 def gamification():
@@ -357,10 +352,6 @@ def gamification():
         return redirect(url_for('dashboard'))
     finally:
         conn.close()
-
-
-
-
 
 @app.route('/donation-history')
 def donation_history():
