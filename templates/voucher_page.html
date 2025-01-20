@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Claim Your Voucher</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles-donation-history.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles-voucher.css') }}">
     <style>
         /* QR Code Pop-Up Styling */
         .qr-overlay {
@@ -64,7 +64,7 @@
                 <h2>🛍️ Shops:</h2>
                 <ul>
                     {% for shop in shops %}
-                    <li>{{ shop }}</li>
+                    <li> {{ shop }}</li>
                     {% endfor %}
                 </ul>
             </div>
@@ -74,7 +74,7 @@
                 <h2>🍴 Restaurants:</h2>
                 <ul>
                     {% for restaurant in restaurants %}
-                    <li>{{ restaurant }}</li>
+                    <li> {{ restaurant }}</li>
                     {% endfor %}
                 </ul>
             </div>

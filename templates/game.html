@@ -196,8 +196,10 @@ function gameLoop() {
     drawBloodDrop();
     moveSnake();
 }
+const gameSpeed = 200;
 
-const game = setInterval(gameLoop, 100);
+const game = setInterval(gameLoop, gameSpeed);
+
 
 
 function winGame() {
@@ -215,7 +217,7 @@ function winGame() {
             // Redirect to the gamification page after the badge is awarded
             setTimeout(() => {
                 window.location.href = "{{ url_for('gamification') }}";
-            }, 2000); // Delay to display the win message
+            }, 1500); // Delay to display the win message
         } else {
             console.error('Failed to award badge:', response.statusText);
             alert('An error occurred while awarding your badge.');
